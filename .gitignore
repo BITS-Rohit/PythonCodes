@@ -1,0 +1,22 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtualenvs
+.venv/
+env/
+venv/
+
+# IDE-specific
+.idea/
+*.iml
+
+# Logs and test artifacts
+*.log
+coverage/
+*.cover
+.cache
+
+main.py
+Module.py
