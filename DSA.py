@@ -87,6 +87,8 @@ class Solution:
             if x in keymap and keymap[x] == 1: return i
         return -1
 
+    # Day 2 ------------------------------------------------------------------------------------------------------------
+
     class Tnode:
         def __init__(self):
             self.child = [None] * 26
@@ -145,9 +147,36 @@ class Solution:
         else:
             return False
 
+    # Day 3 ----------------------------------------------------------------------------------------------------------------
 
-word = " hi "
-sol = Solution()
-d = {}
+    # Q = 648  Leetcode
+    def b(self, dic: List[str]) -> None:
 
-print(sol.firstUniqChar("bab"))
+        for word in dic:
+            d = self.trie
+            for char in word:
+                if char not in d:
+                    d[char] = {}
+                d = d[char]
+            d["#"] = word
+
+    def search2(self, word: str, i: int = 0, d: dict = None, n: List[str] = None) -> bool:
+        if d is None: d = self.trie
+        if i == len(word):
+            if '#' in d:
+                n.append(d.get('#'))
+                return True
+            else:
+                return False
+        if '#' in d:
+            n.append(d.get('#'))
+            return True
+        return self.search2(word, i + 1, d[word[i]], n)
+
+    def replaceWords(self, dictionary: List[str], sentence: str) -> str:
+        self.b(dictionary)
+        res = []
+        for word in sentence.split():
+            n = []
+            res.append(n[0]) if self.search2(word, n=n) else res.append(word)
+        return " ".join(res)
