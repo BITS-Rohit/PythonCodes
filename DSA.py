@@ -147,7 +147,7 @@ class Solution:
         else:
             return False
 
-    # Day 3 ----------------------------------------------------------------------------------------------------------------
+    # Day 3 ------------------------------------------------------------------------------------------------------------
 
     # Q = 648  Leetcode
     def b(self, dic: List[str]) -> None:
@@ -180,3 +180,53 @@ class Solution:
             n = []
             res.append(n[0]) if self.search2(word, n=n) else res.append(word)
         return " ".join(res)
+
+    # Day 4 ------------------------------------------------------------------------------------------------------------
+    # 212 leetcode
+    def b2(self, words: List[str]) -> None:
+        for word in words:
+            d = self.trie
+            for char in word:
+                if char not in d: d[char] = {}
+                d = d[char]
+            d['#'] = word
+
+    def search3(self, word, board, i, y, idx, bools, d):
+        if idx == len(word):
+            return True
+
+        if i < 0 or y < 0 or i >= len(board) or y >= len(board[0]) or bools[i][y]:
+            return False
+
+        char = board[i][y]
+        if char != word[idx] or char not in d:
+            return False
+
+        bools[i][y] = True  # Mark cell as visited
+
+        for dx, dy in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+            if self.search3(word, board, i + dx, y + dy, idx + 1, bools, d[char]):
+                return True
+
+        bools[i][y] = False  # Unmark
+
+        return False
+
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        self.b2(words)
+        d = self.trie
+        res = set()
+        rows, cols = len(board), len(board[0])
+
+        for word in words:
+            found = False
+            for i in range(rows):
+                for j in range(cols):
+                    bools = [[False for _ in range(cols)] for _ in range(rows)]
+                    if self.search3(word, board, i, j, 0, bools, d):
+                        res.add(word)
+                        found = True
+                        break
+                if found:
+                    break
+        return list(res)
