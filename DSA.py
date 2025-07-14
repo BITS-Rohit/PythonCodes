@@ -1,3 +1,4 @@
+import copy
 from typing import List, Optional
 
 
@@ -230,3 +231,38 @@ class Solution:
                 if found:
                     break
         return list(res)
+
+    # 78 -> Leetcode , subset
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        t = []
+
+        def rec(i: int = 0):
+            if i == len(nums): res.append(copy.deepcopy(t))
+
+            t.append(nums[i])
+            rec(i + 1)
+            t.remove(nums[i])
+            rec(i - 1)
+
+        rec()
+        return res
+
+    # 98 -> Leetcode , subset II
+    def subsetsWithDup(self, nums):
+        nums.sort()
+        res = []
+
+        def dfs(start, path):
+            res.append(path[:])
+
+            for i in range(start, len(nums)):
+                # ✅ Skip duplicates at the same level
+                if i > start and nums[i] == nums[i - 1]:
+                    continue
+                path.append(nums[i])
+                dfs(i + 1, path)
+                path.pop()
+
+        dfs(0, [])
+        return res
