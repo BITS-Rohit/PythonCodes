@@ -266,3 +266,36 @@ class Solution:
 
         dfs(0, [])
         return res
+
+    class TreeNode:
+        def __init__(self, val=0, left=None, right=None):
+            self.val = val
+            self.left = left
+            self.right = right
+
+    def getAllElements(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> List[int]:
+        values = []
+        self.getV(root1, values)
+        self.getV(root2, values)
+        values.sort(key=lambda x: x.val)
+        return values
+
+    def getV(self, root1: TreeNode, val: list) -> None:
+        self.getV(root1.left, val)
+        val.append(root1.val)
+        self.getV(root1.right, val)
+
+    def isGood(self, nums: List[int]) -> bool:
+        m = 0
+        for num in nums: m = max(num, m)
+        if len(nums) != m + 1: return False
+
+        array = [False] * m
+        c = 0
+        for num in nums:
+            if m == num: c += 1
+            if num - 1 >= 0: array[num - 1] = True
+
+        for x in array:
+            if not x: return False
+        return c == 2
