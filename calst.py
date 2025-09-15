@@ -77,7 +77,7 @@ def init_db():
 # --------------------
 # AI ENGINE (Gemini)
 # --------------------
-genai.configure(api_key="AIzaSyBp0UzywOYkLEegZQMDtUZR2bHD1Vt-sPY")
+genai.configure(api_key="api")
 
 
 def ai_mentor(prompt: str) -> str:
